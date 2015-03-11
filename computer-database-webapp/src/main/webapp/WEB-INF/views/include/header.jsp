@@ -17,8 +17,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.jsp"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="/j_spring_security_logout"> Log Out </a>
 			<div id="navbar" class="collapse navbar-collapse pull-right">
 				<ul class="nav navbar-nav">
 					<li class="dropdown"><a href="#" class="dropdown-toggle "

@@ -21,10 +21,5 @@
 			<artifactId>computer-database-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-				<dependency>
-			<groupId>org.glassfish.web</groupId>
-			<artifactId>javax.el</artifactId>
-			<version>${javax-el-version}</version>
-		</dependency>
 	</dependencies>
 </project>

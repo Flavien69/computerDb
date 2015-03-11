@@ -11,9 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.flavien.dto.ComputerDTO;
 import com.flavien.dto.mapper.ComputerMapperDTO;
@@ -34,8 +34,8 @@ public class EditComputerController {
 	@Autowired
 	private ComputerMapperDTO computerMapperDTO;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String doGet(@RequestParam("id") int id, ModelMap map) {
+	@RequestMapping(value="/{id}", method = RequestMethod.GET)
+	public String doGet(@PathVariable  int id, ModelMap map) {
 		List<Company> companies = this.companyService.getAll();
 		Computer computer = this.computerService.getByID(id);
 		ComputerDTO computerDTO = computerMapperDTO.toDto(computer);

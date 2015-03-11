@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/context
 						http://www.springframework.org/schema/context/spring-context.xsd
-						http://www.springframework.org/schema/tx
-						http://www.springframework.org/schema/tx/spring-tx.xsd
-						http://www.springframework.org/schema/mvc
-        				http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
         				http://www.springframework.org/schema/data/jpa
     					http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
@@ -34,16 +29,6 @@
 				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
 				<property name="database" value="MYSQL" />
 			</bean>
-		</property>
-		<property name="jpaProperties">
-			<value>
-				hibernate.cache.use_second_level_cache = true
-				hibernate.cache.region.factory_class =
-				org.hibernate.cache.ehcache.EhCacheRegionFactory
-				hibernate.cache.use_query_cache = true
-				hibernate.generate_statistics
-				= true
-			</value>
 		</property>
 	</bean>
 
@@ -71,13 +56,6 @@
 			value="jdbc:mysql://localhost:3306/${DB_NAME}?zeroDateTimeBehavior=convertToNull" />
 		<property name="username" value="${DB_USER}" />
 		<property name="password" value="${DB_PWD}" />
-	</bean>
-
-	<!-- Handle transactions -->
-	<tx:annotation-driven transaction-manager="txManager" />
-
-	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
 </beans>
