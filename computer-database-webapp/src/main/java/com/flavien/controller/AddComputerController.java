@@ -21,7 +21,7 @@ import com.flavien.service.CompanyService;
 import com.flavien.service.ComputerService;
 
 @Controller
-@RequestMapping("/add-computerDDD")
+@RequestMapping("/add-computer")
 public class AddComputerController {
 	private final static Logger logger = LoggerFactory.getLogger(AddComputerController.class);
 

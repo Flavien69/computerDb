@@ -33,6 +33,7 @@
 		<jsp-api-version>2.0</jsp-api-version>
 		<bonecp-version>0.8.0.RELEASE</bonecp-version>
 		<spring-version>4.1.5.RELEASE</spring-version>
+		<spring-security-version>3.2.6.RELEASE</spring-security-version>
 		<hibernate-version>4.1.9.Final</hibernate-version>
 		<javax-el-version>2.2.4</javax-el-version>
 		<hibernate-jpa-2.0-api-version>1.0.1.Final</hibernate-jpa-2.0-api-version>
