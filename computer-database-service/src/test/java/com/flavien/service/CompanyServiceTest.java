@@ -26,7 +26,7 @@ import com.flavien.service.impl.CompanyServiceImpl;
 import com.flavien.utils.ScriptRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration(locations = { "classpath:spring/application-context-dao-test.xml" })
+@ContextConfiguration(locations = { "classpath:spring/application-context-service-test.xml" })
 public class CompanyServiceTest {
 	private CompanyService cut;
 	@Mock

@@ -31,7 +31,6 @@ public class UserServiceImpl implements UserService {
 
 		// Create a GrantedAuthority list based on the role String from the database
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		String role = user.getRole();
 		authorities.add(new SimpleGrantedAuthority(user.getRole()));
 
 		// return a springframework user

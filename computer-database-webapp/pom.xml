@@ -63,5 +63,44 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring-security-version}</version>
 		</dependency>
+		
+		<!-- Test -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium-version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+	
+	<build>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>selenium-maven-plugin</artifactId>
+				<version>${selenium-maven-plugin-version}</version>
+				<configuration>
+					<forcedBrowserMode>*firefox</forcedBrowserMode>
+					<background>true</background>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-selenium-server</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start-server</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-selenium-server</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop-server</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

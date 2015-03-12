@@ -20,7 +20,7 @@ import com.flavien.models.Page;
 import com.flavien.service.impl.ComputerServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration(locations = { "classpath:spring/application-context-dao-test.xml" })
+@ContextConfiguration(locations = { "classpath:spring/application-context-service-test.xml" })
 public class ComputerServiceTest {
 	private ComputerService cut;
 	@Mock
