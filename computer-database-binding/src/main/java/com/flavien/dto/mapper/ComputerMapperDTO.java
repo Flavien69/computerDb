@@ -21,7 +21,7 @@ import com.flavien.utils.Utils;
  */
 @Component
 public class ComputerMapperDTO {
-	
+
 	@Autowired
 	private MessageSource messageSource;
 
