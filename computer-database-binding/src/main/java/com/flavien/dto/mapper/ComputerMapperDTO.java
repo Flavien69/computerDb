@@ -42,10 +42,12 @@ public class ComputerMapperDTO {
 	}
 
 	public Computer fromDto(ComputerDTO computerDTO) {
-		return new Computer.Builder().id(computerDTO.getId()).name(computerDTO.getName())
-				.introduced(Utils.getLocalDateTime(computerDTO.getIntroduced(), getDatePattern()))
-				.discontinued(Utils.getLocalDateTime(computerDTO.getDiscontinued(), getDatePattern()))
-				.company(computerDTO.getCompany()).build();
+		return new Computer.Builder()
+			.id(computerDTO.getId())
+			.name(computerDTO.getName())
+			.introduced(Utils.getLocalDateTime(computerDTO.getIntroduced(), getDatePattern()))
+			.discontinued(Utils.getLocalDateTime(computerDTO.getDiscontinued(), getDatePattern()))
+			.company(computerDTO.getCompany()).build();
 	}
 
 	public List<ComputerDTO> listToDto(List<Computer> computers) {

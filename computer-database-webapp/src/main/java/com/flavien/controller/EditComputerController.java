@@ -47,7 +47,7 @@ public class EditComputerController {
 		return "editComputer";
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value="/{id}", method = RequestMethod.POST)
 	public String doPost(@ModelAttribute("computer") @Valid ComputerDTO computerDTO,
 			BindingResult bindingResult, ModelMap map) {
 		

@@ -54,7 +54,7 @@ public class Utils {
 	 * @throws RuntimeException
 	 */
 	public static LocalDateTime getLocalDateTime(String dateInString, String pattern) {
-		if (dateInString.isEmpty())
+		if (dateInString == null || dateInString.isEmpty())
 			return null;
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);

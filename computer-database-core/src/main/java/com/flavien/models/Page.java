@@ -46,6 +46,13 @@ public class Page {
 		this.nbTotalPage = Math.round(nbTotalComputer / entityByPage);
 	}
 
+	public Page(int index, String search, SortOrder sortOrder, SortCriteria sortCriteria) {
+		this.index = index;
+		this.sortOrder = sortOrder;
+		this.search = search;
+		this.sortCriteria = sortCriteria;
+	}
+
 	public Page(List<Computer> computerList, int index, int nbTotalComputer) {
 		this.computerList = computerList;
 		this.index = index;

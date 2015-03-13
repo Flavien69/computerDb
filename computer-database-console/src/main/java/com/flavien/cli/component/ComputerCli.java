@@ -3,12 +3,22 @@ package com.flavien.cli.component;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.flavien.cli.HelperCli;
 import com.flavien.dto.ComputerDTO;
+import com.flavien.dto.PageDTO;
 import com.flavien.dto.mapper.ComputerMapperDTO;
+import com.flavien.dto.mapper.PageMapperDTO;
 import com.flavien.models.Company;
 import com.flavien.models.Computer;
 import com.flavien.models.Page;
@@ -22,29 +32,44 @@ import com.flavien.service.ComputerService;
  */
 @Component
 public class ComputerCli {
-	
+
 	@Autowired
 	private CompanyService companyService;
-	
+
 	@Autowired
 	private ComputerService computerService;
-	
+
 	@Autowired
 	private CompanyCli companyCli;
-	
+
 	@Autowired
 	private ComputerMapperDTO computerMapperDTO;
 	
-	public ComputerCli(){}
+	@Autowired
+	private PageMapperDTO pageMapperDTO;
+
+	private Client client;
 	
+	private WebTarget computerTarget;
+
+	public ComputerCli() {
+		client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
+
+		computerTarget = client.target("http://localhost:8080/computer-database-webservice/api/computers");
+	}
+
 	/**
 	 * 
 	 * Show a list of computers
 	 * 
 	 */
 	public void showComputers() {
-		List<Computer> computerList = computerService.getAll();
-		displayComputer(computerMapperDTO.listToDto(computerList));
+
+		List<ComputerDTO> computerList = computerTarget
+				.request(MediaType.APPLICATION_JSON)
+				.get(new GenericType<List<ComputerDTO>>() {});
+						
+		displayComputer(computerList);
 	}
 
 	/**
@@ -56,8 +81,14 @@ public class ComputerCli {
 		String input;
 		Page page = new Page(-1);
 		do {
-			page.setIndex(page.getIndex()+1);
-			page = computerService.getByPage(page);
+			page.setIndex(page.getIndex() + 1);
+			
+			PageDTO pageDTO = computerTarget
+					.path("/dashboard")
+					.request(MediaType.APPLICATION_JSON)
+					.get(PageDTO.class);
+			
+			page = computerService.getByPage(pageMapperDTO.fromDto(pageDTO));
 			displayComputer(computerMapperDTO.listToDto(page.getComputerList()));
 
 			System.out.println("\npage " + page.getIndex() + "/" + page.getNbTotalPage());
@@ -94,10 +125,12 @@ public class ComputerCli {
 			computer.setName(name);
 		} while (name == null);
 
-		System.out.println("Vchoose a date of introduced (" + HelperCli.DATE_FORMAT + " or 'enter' to skip) :");
+		System.out.println("Vchoose a date of introduced (" + HelperCli.DATE_FORMAT
+				+ " or 'enter' to skip) :");
 		computer.setIntroduced(HelperCli.getDateInput());
 
-		System.out.println("choose a date of discontinued (" + HelperCli.DATE_FORMAT + " or 'enter' to skip) :");
+		System.out.println("choose a date of discontinued (" + HelperCli.DATE_FORMAT
+				+ " or 'enter' to skip) :");
 		computer.setDiscontinued(HelperCli.getDateInput());
 
 		companyCli.showCompany();
@@ -119,8 +152,11 @@ public class ComputerCli {
 				break;
 			isCompanyIdError = true;
 		} while (company == null);
-		
-		computerService.add(computer);
+
+		computerTarget
+				.path("computers")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.entity(computer,MediaType.APPLICATION_JSON));
 	}
 
 	/**
@@ -152,12 +188,14 @@ public class ComputerCli {
 		if (name != null)
 			computer.setName(name);
 
-		System.out.println("Choose a date of introduced (" + HelperCli.DATE_FORMAT + " or 'enter' to skip) :");
+		System.out
+				.println("Choose a date of introduced (" + HelperCli.DATE_FORMAT + " or 'enter' to skip) :");
 		LocalDateTime introducedDate = HelperCli.getDateInput();
 		if (introducedDate != null)
 			computer.setIntroduced(introducedDate);
 
-		System.out.println("Choose a date of discontinued (" + HelperCli.DATE_FORMAT + " or 'enter' to skip) :");
+		System.out.println("Choose a date of discontinued (" + HelperCli.DATE_FORMAT
+				+ " or 'enter' to skip) :");
 		LocalDateTime discontinued = HelperCli.getDateInput();
 		if (introducedDate != null)
 			computer.setDiscontinued(discontinued);
@@ -179,8 +217,11 @@ public class ComputerCli {
 				break;
 			isCompanyIdError = true;
 		} while (company == null);
-		
-		computerService.update(computer);
+
+		computerTarget
+			.path("/"+computer.getId())
+			.request(MediaType.APPLICATION_JSON)
+			.post(Entity.entity(computer,MediaType.APPLICATION_JSON));
 	}
 
 	/**
@@ -200,7 +241,10 @@ public class ComputerCli {
 			System.out.println("\nERREUR: choose a computer to delete (ID of the computer):");
 		}
 
-		computerService.deleteById(id);
+		computerTarget
+			.path("/"+id)
+			.request(MediaType.APPLICATION_JSON)
+			.delete();
 		System.out.println("Computer deleted!\n");
 	}
 
