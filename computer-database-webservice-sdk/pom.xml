@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>computer-database</groupId>
+		<artifactId>computer-database</artifactId>
+		<version>0.0.2.RELEASE</version>
+	</parent>
+
+	<artifactId>computer-database-webservice-sdk</artifactId>
+
+	<dependencies>
+		<!-- JAX-RS Specification -->
+		<dependency>
+		    <groupId>javax.ws.rs</groupId>
+		    <artifactId>javax.ws.rs-api</artifactId>
+		</dependency>
+        
+		<!-- Personal Dependencies -->
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>computer-database-binding</artifactId>
+		</dependency>
+	</dependencies>
+</project>
+

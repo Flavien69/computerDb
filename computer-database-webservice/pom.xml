@@ -30,11 +30,13 @@
 			<artifactId>spring-security-config</artifactId>
 		</dependency>
 
-		<!-- Jersey -->
+		<!-- JAX-RS Specification -->
 		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-server</artifactId>
+		    <groupId>javax.ws.rs</groupId>
+		    <artifactId>javax.ws.rs-api</artifactId>
 		</dependency>
+		
+		<!-- Jersey -->
 		<dependency>
 			<groupId>org.glassfish.jersey.ext</groupId>
 			<artifactId>jersey-spring3</artifactId>

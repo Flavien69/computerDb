@@ -37,6 +37,9 @@ public class ComputerWebserviceImpl implements ComputerWebservice{
 	@Autowired
 	private PageMapperDTO pageMapperDTO;
 
+	/* (non-Javadoc)
+	 * @see com.flavien.webservice.ComputerWebservice#findById(int)
+	 */
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -44,12 +47,18 @@ public class ComputerWebserviceImpl implements ComputerWebservice{
 		return computerMapperDTO.toDto(computerService.getByID(id));
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.flavien.webservice.ComputerWebservice#findAll()
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ComputerDTO> findAll() {		
 		return computerMapperDTO.listToDto(computerService.getAll());
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.flavien.webservice.ComputerWebservice#findDashboard(int, java.lang.String, com.flavien.models.Page.SortCriteria, com.flavien.models.Page.SortOrder)
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/dashboard")
@@ -61,12 +70,18 @@ public class ComputerWebserviceImpl implements ComputerWebservice{
 		return pageMapperDTO.toDto(computerService.getByPage(page));
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.flavien.webservice.ComputerWebservice#addComputer(com.flavien.models.Computer)
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void addComputer(Computer computer) {		
 		computerService.add(computer);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.flavien.webservice.ComputerWebservice#saveComputer(com.flavien.models.Computer)
+	 */
 	@POST
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -75,6 +90,9 @@ public class ComputerWebserviceImpl implements ComputerWebservice{
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see com.flavien.webservice.ComputerWebservice#deleteComputer(int)
+	 */
 	@DELETE
 	@Path("/{id}")
 	public void deleteComputer(@PathParam("id") int id) {		

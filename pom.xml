@@ -13,6 +13,7 @@
 		<module>computer-database-service</module>
 		<module>computer-database-binding</module>
 		<module>computer-database-webapp</module>
+		<module>computer-database-webservice-sdk</module>
 		<module>computer-database-webservice</module>
 		<module>computer-database-console</module>
 	</modules>
@@ -36,6 +37,7 @@
 		<spring-security-version>3.2.6.RELEASE</spring-security-version>
 		<hibernate-version>4.1.9.Final</hibernate-version>
 		<javax-el-version>2.2.4</javax-el-version>
+		<javax-ws-rs-api-version>2.0.1</javax-ws-rs-api-version>
 		<jersey-version>2.16</jersey-version>
 		<jersey-media-json-jackson-version>2.17</jersey-media-json-jackson-version>
 		<hibernate-jpa-2.0-api-version>1.0.1.Final</hibernate-jpa-2.0-api-version>
@@ -107,6 +109,11 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
+				<artifactId>computer-database-webservice-sdk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>computer-database-webservice</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -117,6 +124,12 @@
 			</dependency>
 
 			<!-- JAX-RS Client -->
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>${javax-ws-rs-api-version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.glassfish.jersey.core</groupId>
 				<artifactId>jersey-client</artifactId>
@@ -129,7 +142,7 @@
 				<artifactId>jersey-server</artifactId>
 				<version>${jersey-version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.glassfish.jersey.ext</groupId>
 				<artifactId>jersey-spring3</artifactId>
@@ -214,6 +227,19 @@
 				<version>${jstl-version}</version>
 			</dependency>
 
+			<!-- Log librairies -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback-version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${jcl-over-slf4j-version}</version>
+			</dependency>
+
 			<!-- test librairy -->
 			<dependency>
 				<groupId>org.mockito</groupId>
@@ -227,29 +253,29 @@
 				<version>${selenium-version}</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit-version}</version>
+				<scope>test</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${logback-version}</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${jcl-over-slf4j-version}</version>
 		</dependency>
 
 		<!-- test librairy -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit-version}</version>
-			<scope>test</scope>
 		</dependency>
 
 		<!-- Spring -->
