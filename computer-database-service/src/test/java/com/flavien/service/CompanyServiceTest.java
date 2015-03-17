@@ -23,7 +23,6 @@ import com.flavien.dao.repository.ComputerRepository;
 import com.flavien.models.Company;
 import com.flavien.models.Computer;
 import com.flavien.service.impl.CompanyServiceImpl;
-import com.flavien.utils.ScriptRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/application-context-service-test.xml" })
@@ -46,10 +45,10 @@ public class CompanyServiceTest {
 		company = new Company.Builder().id(2).name("super company").build();
 		computer = new Computer.Builder().id(10).name("test").build();
 
-		for (int i = 0; i < ScriptRunner.COUNT_TOTAL_COMPANY; i++)
+		for (int i = 0; i < 5; i++)
 			companies.add(company);
 
-		for (int i = 0; i < ScriptRunner.COUNT_TOTAL_COMPUTER; i++)
+		for (int i = 0; i < 20; i++)
 			computers.add(computer);
 
 		//Mock the companyDao
@@ -77,14 +76,14 @@ public class CompanyServiceTest {
 	@Test
 	public void deleteById() {
 		cut.deleteByID(2);
-		Assert.assertEquals(companies.size(), ScriptRunner.COUNT_TOTAL_COMPANY -1);
-		Assert.assertEquals(computers.size(), ScriptRunner.COUNT_TOTAL_COMPUTER -2);
+		Assert.assertEquals(companies.size(), 5 -1);
+		Assert.assertEquals(computers.size(), 20 -2);
 	}
 	
 	@Test
 	public void TestGetAll() {
 		List<Company> companies = cut.getAll();
-		Assert.assertEquals(companies.size(), ScriptRunner.COUNT_TOTAL_COMPANY);
+		Assert.assertEquals(companies.size(), 5);
 	}
 
 	@Test

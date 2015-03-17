@@ -22,6 +22,10 @@ import com.flavien.models.Computer;
 import com.flavien.service.CompanyService;
 import com.flavien.service.ComputerService;
 
+
+/**
+ * Controller to edit a computer
+ */
 @Controller
 @RequestMapping("/edit-computer")
 public class EditComputerController {
@@ -34,6 +38,14 @@ public class EditComputerController {
 	@Autowired
 	private ComputerMapperDTO computerMapperDTO;
 	
+	
+	/**
+	 * Get the page for edit a computer.
+	 * 
+	 * @param id
+	 * @param map
+	 * @return the page
+	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public String doGet(@PathVariable  int id, ModelMap map) {
 		List<Company> companies = this.companyService.getAll();
@@ -47,6 +59,14 @@ public class EditComputerController {
 		return "editComputer";
 	}
 
+	/**
+	 * Post the computer to edit
+	 * 
+	 * @param computerDTO
+	 * @param bindingResult
+	 * @param map
+	 * @return the page
+	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.POST)
 	public String doPost(@ModelAttribute("computer") @Valid ComputerDTO computerDTO,
 			BindingResult bindingResult, ModelMap map) {

@@ -13,8 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.springframework.stereotype.Service;
-
 import com.flavien.dto.ComputerDTO;
 import com.flavien.dto.PageDTO;
 import com.flavien.models.Computer;
@@ -22,10 +20,8 @@ import com.flavien.models.Page.SortCriteria;
 import com.flavien.models.Page.SortOrder;
 
 /**
- * @author flavien
- *
+ * End point of the computers resource.
  */
-@Service
 @Path("/computers")
 public interface ComputerWebservice {
 

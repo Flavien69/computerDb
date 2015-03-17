@@ -20,6 +20,9 @@ import com.flavien.models.Company;
 import com.flavien.service.CompanyService;
 import com.flavien.service.ComputerService;
 
+/**
+ * Controller to create a new computer.
+ */
 @Controller
 @RequestMapping("/add-computer")
 public class AddComputerController {
@@ -32,6 +35,12 @@ public class AddComputerController {
 	@Autowired
 	private ComputerMapperDTO computerMapperDTO;
 
+	/**
+	 * Get the page to create a computer.
+	 * 
+	 * @param map
+	 * @return the create computer page
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(ModelMap map) {
 		List<Company> companies = this.companyService.getAll();
@@ -41,6 +50,12 @@ public class AddComputerController {
 		return "addComputer";
 	}
 
+	/**
+	 * Get the page to post a new computer.
+	 * 
+	 * @param map
+	 * @return the dashboard page
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(@ModelAttribute("computerDTO") @Valid ComputerDTO computerDTO,
 			BindingResult bindingResult, ModelMap map) {

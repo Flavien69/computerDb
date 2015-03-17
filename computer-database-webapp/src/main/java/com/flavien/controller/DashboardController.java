@@ -12,6 +12,9 @@ import com.flavien.models.Page;
 import com.flavien.service.CompanyService;
 import com.flavien.service.ComputerService;
 
+/**
+ * Controller to get a page of computers.
+ */
 @Controller
 @RequestMapping("/dashboard")
 public class DashboardController {
@@ -23,6 +26,14 @@ public class DashboardController {
 	@Autowired
 	private CompanyService companyService;
 
+	
+	/**
+	 * Get the page of computers
+	 * 
+	 * @param page
+	 * @param map
+	 * @return the dashboard page
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(Page page, ModelMap map) {
 		page = this.computerService.getByPage(page);

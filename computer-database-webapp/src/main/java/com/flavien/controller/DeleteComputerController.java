@@ -12,6 +12,9 @@ import com.flavien.service.CompanyService;
 import com.flavien.service.ComputerService;
 import com.flavien.utils.Utils;
 
+/**
+ * Controller to delete a computer
+ */
 @Controller
 @RequestMapping("/delete-computer")
 public class DeleteComputerController {
@@ -23,6 +26,12 @@ public class DeleteComputerController {
 	private CompanyService companyService;
 
 	
+	/**
+	 * Post a computer to delete.
+	 * 
+	 * @param idsToDelete
+	 * @return the dashboard page.
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(@RequestParam("selection") String idsToDelete){
 		String[] array = idsToDelete.split(",");

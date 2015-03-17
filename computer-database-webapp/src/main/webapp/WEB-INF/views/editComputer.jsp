@@ -90,7 +90,7 @@
 						<input type="submit" value="${edit}"
 							class="btn btn-primary validation">
 						<spring:message code="computer_form.button_separator" />
-						<a href="<c:url value="dashboard"/>" class="btn btn-default"><spring:message
+						<a href="<c:url value="../dashboard"/>" class="btn btn-default"><spring:message
 								code="computer_form.cancel_button" /></a>
 					</div>
 				</form:form>

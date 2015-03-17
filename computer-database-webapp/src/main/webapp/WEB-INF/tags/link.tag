@@ -1,6 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8" description="Link template"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ attribute name="target" required="false"%>
 <%@ attribute name="index" required="false"%>
@@ -41,4 +42,4 @@
 </c:choose>
 
 <c:url
-	value="${target}?nbEntityByPage=${nbEntityByPage}&index=${index}&search=${search}&sortCriteria=${sortCriteria}&sortOrder=${sortOrder}" />
+	value="${target}?nbEntityByPage=${nbEntityByPage}&index=${index}&search=${fn:escapeXml(search)}&sortCriteria=${sortCriteria}&sortOrder=${sortOrder}" />
