@@ -54,7 +54,6 @@ public class ComputerCli {
 
 	public ComputerCli() {
 		client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
-
 		computerTarget = client.target("http://localhost:8080/computer-database-webservice/api/computers");
 	}
 
@@ -85,6 +84,7 @@ public class ComputerCli {
 			
 			PageDTO pageDTO = computerTarget
 					.path("/dashboard")
+					.queryParam("index", page.getIndex())
 					.request(MediaType.APPLICATION_JSON)
 					.get(PageDTO.class);
 			

@@ -14,5 +14,5 @@ public interface ComputerWebservice {
 	
 	public void saveComputer(Computer computer);
 	
-	public void deleteComputer(Computer computer);
+	public void deleteComputer(int id);
 }

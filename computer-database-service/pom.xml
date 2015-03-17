@@ -13,24 +13,19 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>computer-database-persistence</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${spring-security-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>${spring-security-version}</version>
 		</dependency>
 		<!-- test librairy -->
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>${mockito-version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

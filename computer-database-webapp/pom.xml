@@ -14,38 +14,30 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>computer-database-binding</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>computer-database-service</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 
 		<!-- provided librairy -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>${servlet-api-version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>${jsp-api-version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- view librairy -->
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<version>${taglibs-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
-			<version>${jstl-version}</version>
 		</dependency>
 
 		<!-- Spring -->
@@ -56,20 +48,16 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${spring-security-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>${spring-security-version}</version>
 		</dependency>
 		
 		<!-- Test -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>${selenium-version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	

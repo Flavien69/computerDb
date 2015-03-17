@@ -77,9 +77,8 @@ public class ComputerWebserviceImpl implements ComputerWebservice{
 	
 	@DELETE
 	@Path("/{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void deleteComputer(Computer computer) {		
-		computerService.deleteById(computer.getId());
+	public void deleteComputer(@PathParam("id") int id) {		
+		computerService.deleteById(id);
 	}
 	
 }
