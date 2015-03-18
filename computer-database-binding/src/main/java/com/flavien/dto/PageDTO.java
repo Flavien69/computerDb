@@ -15,9 +15,13 @@ public class PageDTO {
   private String            sortCriteria;
   @SuppressWarnings("unused")
   private int[]             range;
-  private int               nbEntityByPage = 10;
+  private int               nbEntityByPage = 100;
 
   public PageDTO() {}
+  
+  public PageDTO(int index) {
+	  this.index = index;
+  }
 
   public List<ComputerDTO> getComputerList() {
     return computerList;

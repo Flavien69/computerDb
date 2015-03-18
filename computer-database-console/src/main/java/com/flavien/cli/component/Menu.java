@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.flavien.cli.HelperCli;
 
-
 /**
  * 
  * Command line interface to handle the main menu interaction.
@@ -14,18 +13,18 @@ import com.flavien.cli.HelperCli;
 @Component
 public class Menu {
 	private static final String MENU_TEMPLATE = "\t%d] %s";
-	
+
 	@Autowired
 	public ComputerCli computerCli;
-	
+
 	@Autowired
 	public CompanyCli companyCli;
 
 	public enum MenuEntries {
 		SHOW_COMPANY("Show all the company."), DELETE_COMPANY("Delete a company."), SHOW_COMPUTERS(
-				"Show all the computers."), SHOW_COMPUTERS_PAGINATION("Show computers page by page."), UPDATE_COMPUTERS(
-				"Update a computer."), DELETE_COMPUTERS("Delete a computer."), CREATE_COMPUTERS(
-				"Create a computer."), QUIT("Quit.");
+				"Show all the computers."), SHOW_COMPUTERS_PAGINATION("Show computers page by page."), GET_COMPUTER(
+				"Get a computer."), UPDATE_COMPUTERS("Update a computer."), DELETE_COMPUTERS(
+				"Delete a computer."), CREATE_COMPUTERS("Create a computer."), QUIT("Quit.");
 
 		private String name;
 
@@ -73,6 +72,10 @@ public class Menu {
 
 		case SHOW_COMPUTERS_PAGINATION:
 			computerCli.showComputersPage();
+			break;
+			
+		case GET_COMPUTER:
+			computerCli.getComputer();
 			break;
 
 		case UPDATE_COMPUTERS:

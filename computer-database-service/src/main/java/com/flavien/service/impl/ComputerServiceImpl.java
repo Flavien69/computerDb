@@ -1,13 +1,16 @@
 package com.flavien.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.flavien.dao.mapper.PageRequestMapper;
 import com.flavien.dao.repository.ComputerRepository;
+import com.flavien.exception.PersistenceException;
 import com.flavien.models.Computer;
 import com.flavien.models.Page;
 import com.flavien.service.ComputerService;
@@ -40,7 +43,11 @@ public class ComputerServiceImpl implements ComputerService {
 	 */
 	@Override
 	public void add(Computer computer) {
-		computerRepository.save(computer);
+		try {
+			computerRepository.save(computer);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException(e);
+		}
 	}
 
 	/*
@@ -80,7 +87,11 @@ public class ComputerServiceImpl implements ComputerService {
 	 */
 	@Override
 	public void deleteById(int computerId) {
-		computerRepository.delete(computerId);
+		try {
+			computerRepository.delete(computerId);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException(e);
+		}
 	}
 
 	/*
@@ -101,7 +112,13 @@ public class ComputerServiceImpl implements ComputerService {
 	 */
 	@Override
 	public Computer getByID(int computerId) {
-		return computerRepository.findOne(computerId);
+		Computer computer = null;
+		try {
+			computer = computerRepository.findOne(computerId);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException(e);
+		}
+		return computer;
 	}
 
 	/*
@@ -111,7 +128,13 @@ public class ComputerServiceImpl implements ComputerService {
 	 */
 	@Override
 	public List<Computer> getByName(String name) {
-		return computerRepository.findByName(name);
+		List<Computer> computers = new ArrayList<>();
+		try {
+			computers = computerRepository.findByName(name);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException(e);
+		}
+		return computers;
 
 	}
 

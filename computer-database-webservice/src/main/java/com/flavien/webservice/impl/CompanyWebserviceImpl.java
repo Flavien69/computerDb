@@ -1,17 +1,16 @@
 package com.flavien.webservice.impl;
 
-import java.util.List;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.flavien.models.Company;
+import com.flavien.exception.PersistenceException;
 import com.flavien.service.CompanyService;
 import com.flavien.webservice.CompanyWebservice;
 
@@ -26,9 +25,8 @@ public class CompanyWebserviceImpl implements CompanyWebservice {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Company> findAll() {		
-		List<Company> companies = companyService.getAll();
-		return companies;
+	public Response findAll() {		
+		return Response.ok(companyService.getAll()).build();
 	}
 	
 	/* (non-Javadoc)
@@ -36,8 +34,13 @@ public class CompanyWebserviceImpl implements CompanyWebservice {
 	 */
 	@DELETE
 	@Path("/{id}")
-	public void deleteCompany(@PathParam("id") int id) {		
-		companyService.deleteByID(id);
+	public Response deleteCompany(@PathParam("id") int id) {	
+		try {
+			companyService.deleteByID(id);
+		} catch (PersistenceException e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		return Response.noContent().build();
 	}
 
 }

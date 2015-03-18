@@ -25,7 +25,7 @@ public class HelperCli {
 
 		return scannerInstance;
 	}
-
+	
 	public static Boolean isSkip(String input) {
 		if (input.equals(""))
 			return true;

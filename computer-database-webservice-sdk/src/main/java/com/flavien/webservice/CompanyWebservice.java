@@ -1,15 +1,12 @@
 package com.flavien.webservice;
 
-import java.util.List;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import com.flavien.models.Company;
+import javax.ws.rs.core.Response;
 
 /**
  * End point of the companies resource.
@@ -23,11 +20,11 @@ public interface CompanyWebservice {
 	 * Get http method.
 	 * 
 	 * Access this resource with this url : http://localhost:8080/computer-database-webservice/api/companies
-	 * @return List<Company>
+	 * @return Response
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Company> findAll();
+	public Response findAll();
 	
 
 	/**
@@ -37,8 +34,9 @@ public interface CompanyWebservice {
 	 * 
 	 * Access this resource with this url : http://localhost:8080/computer-database-webservice/api/companies/{id}
 	 * @param id
+	 * @return Response
 	 */
 	@DELETE
 	@Path("/{id}")
-	public void deleteCompany(@PathParam("id") int id);
+	public Response deleteCompany(@PathParam("id") int id);
 }

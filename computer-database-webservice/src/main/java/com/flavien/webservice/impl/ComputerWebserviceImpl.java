@@ -1,5 +1,6 @@
 package com.flavien.webservice.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -12,13 +13,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.flavien.dto.ComputerDTO;
-import com.flavien.dto.PageDTO;
 import com.flavien.dto.mapper.ComputerMapperDTO;
 import com.flavien.dto.mapper.PageMapperDTO;
+import com.flavien.exception.PersistenceException;
 import com.flavien.models.Computer;
 import com.flavien.models.Page;
 import com.flavien.models.Page.SortCriteria;
@@ -27,76 +29,130 @@ import com.flavien.service.ComputerService;
 import com.flavien.webservice.ComputerWebservice;
 
 @Path("/computers")
-public class ComputerWebserviceImpl implements ComputerWebservice{
+public class ComputerWebserviceImpl implements ComputerWebservice {
 	@Autowired
 	private ComputerService computerService;
-	
+
 	@Autowired
 	private ComputerMapperDTO computerMapperDTO;
-	
+
 	@Autowired
 	private PageMapperDTO pageMapperDTO;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.flavien.webservice.ComputerWebservice#findById(int)
 	 */
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ComputerDTO findById(@PathParam("id") int id) {		
-		return computerMapperDTO.toDto(computerService.getByID(id));
+	public Response findById(@PathParam("id") int id) {
+		ComputerDTO computerDTO = null;
+		try {
+			computerDTO = computerMapperDTO.toDto(computerService.getByID(id));
+		} catch (PersistenceException e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		if (computerDTO == null){
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+
+		return Response.ok(computerDTO).build();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.flavien.webservice.ComputerWebservice#findAll()
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ComputerDTO> findAll() {		
-		return computerMapperDTO.listToDto(computerService.getAll());
+	public Response findAll() {
+		List<ComputerDTO> computerDTOs = new ArrayList<>();
+		try {
+			computerDTOs = computerMapperDTO.listToDto(computerService.getAll());
+		} catch (PersistenceException e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		return Response.ok(computerDTOs).build();
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.flavien.webservice.ComputerWebservice#findDashboard(int, java.lang.String, com.flavien.models.Page.SortCriteria, com.flavien.models.Page.SortOrder)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.flavien.webservice.ComputerWebservice#findDashboard(int,
+	 * java.lang.String, com.flavien.models.Page.SortCriteria,
+	 * com.flavien.models.Page.SortOrder)
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/dashboard")
-	public PageDTO findDashboard(@DefaultValue("0") @QueryParam("index") int index,
+	public Response findDashboard(@DefaultValue("0") @QueryParam("index") int index,
 			@DefaultValue("") @QueryParam("search") String search,
 			@DefaultValue("ID") @QueryParam("sortCriteria") SortCriteria sortCriteria,
-			@DefaultValue("ASC") @QueryParam("sortOrder") SortOrder sortOrder) {	
-		Page page = new Page(index,search,sortOrder,sortCriteria);
-		return pageMapperDTO.toDto(computerService.getByPage(page));
+			@DefaultValue("ASC") @QueryParam("sortOrder") SortOrder sortOrder) {
+
+		Page page = null;
+		try {
+			page = new Page(index, search, sortOrder, sortCriteria);
+		} catch (PersistenceException e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		return Response.ok(pageMapperDTO.toDto(computerService.getByPage(page))).build();
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.flavien.webservice.ComputerWebservice#addComputer(com.flavien.models.Computer)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.flavien.webservice.ComputerWebservice#addComputer(com.flavien.models
+	 * .Computer)
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void addComputer(Computer computer) {		
-		computerService.add(computer);
+	public Response addComputer(Computer computer) {
+		try {
+			computerService.add(computer);
+		} catch (PersistenceException e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		return Response.noContent().build();
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.flavien.webservice.ComputerWebservice#saveComputer(com.flavien.models.Computer)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.flavien.webservice.ComputerWebservice#saveComputer(com.flavien.models
+	 * .Computer)
 	 */
 	@POST
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void saveComputer(Computer computer) {		
-		computerService.add(computer);
+	public Response saveComputer(Computer computer) {
+		try {
+			computerService.add(computer);
+		} catch (PersistenceException e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		return Response.noContent().build();
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.flavien.webservice.ComputerWebservice#deleteComputer(int)
 	 */
 	@DELETE
 	@Path("/{id}")
-	public void deleteComputer(@PathParam("id") int id) {		
-		computerService.deleteById(id);
+	public Response deleteComputer(@PathParam("id") int id) {
+		try {
+			computerService.deleteById(id);
+		} catch (PersistenceException e) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		return Response.noContent().build();
 	}
-	
+
 }

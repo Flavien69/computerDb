@@ -28,6 +28,9 @@ public class ComputerMapperDTO {
 	public ComputerDTO toDto(Computer computer) {
 		DateTimeFormatter localeFormatter = DateTimeFormatter.ofPattern(getDatePattern());
 
+		if (computer == null)
+			return null;
+		
 		return new ComputerDTO.Builder()
 				.id(computer.getId())
 				.name(computer.getName())
@@ -42,6 +45,10 @@ public class ComputerMapperDTO {
 	}
 
 	public Computer fromDto(ComputerDTO computerDTO) {
+		
+		if (computerDTO == null)
+			return null;
+		
 		return new Computer.Builder()
 			.id(computerDTO.getId())
 			.name(computerDTO.getName())

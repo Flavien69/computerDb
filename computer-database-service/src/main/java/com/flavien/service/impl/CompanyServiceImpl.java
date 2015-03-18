@@ -3,11 +3,13 @@ package com.flavien.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.flavien.dao.repository.CompanyRepository;
 import com.flavien.dao.repository.ComputerRepository;
+import com.flavien.exception.PersistenceException;
 import com.flavien.models.Company;
 import com.flavien.service.CompanyService;
 
@@ -61,8 +63,12 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	@Transactional(readOnly = false)
 	public void deleteByID(int companyId) {
-		computerRepository.deleteByCompanyId(companyId);
-		companyRepository.delete(companyId);
+		try {
+			computerRepository.deleteByCompanyId(companyId);
+			companyRepository.delete(companyId);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PersistenceException(e);
+		}
 
 	}
 }

@@ -23,7 +23,7 @@ public class ComputerDTO {
 	private String discontinued;
 	private Company company;
 	
-	private ComputerDTO() {}	
+	public ComputerDTO() {}	
 	
 	public int getId() {
 		return id;

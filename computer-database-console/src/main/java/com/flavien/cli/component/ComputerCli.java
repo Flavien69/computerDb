@@ -9,16 +9,16 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.flavien.cli.HelperCli;
 import com.flavien.dto.ComputerDTO;
 import com.flavien.dto.PageDTO;
-import com.flavien.dto.mapper.ComputerMapperDTO;
-import com.flavien.dto.mapper.PageMapperDTO;
 import com.flavien.models.Company;
 import com.flavien.models.Computer;
 import com.flavien.models.Page;
@@ -42,14 +42,8 @@ public class ComputerCli {
 	@Autowired
 	private CompanyCli companyCli;
 
-	@Autowired
-	private ComputerMapperDTO computerMapperDTO;
-	
-	@Autowired
-	private PageMapperDTO pageMapperDTO;
-
 	private Client client;
-	
+
 	private WebTarget computerTarget;
 
 	public ComputerCli() {
@@ -64,11 +58,13 @@ public class ComputerCli {
 	 */
 	public void showComputers() {
 
-		List<ComputerDTO> computerList = computerTarget
-				.request(MediaType.APPLICATION_JSON)
-				.get(new GenericType<List<ComputerDTO>>() {});
-						
-		displayComputer(computerList);
+		// Consume the API
+		Response response = computerTarget.request(MediaType.APPLICATION_JSON).get();
+
+		if (response.getStatus() == HttpStatus.OK.value())
+			displayComputer(response.readEntity(new GenericType<List<ComputerDTO>>() {}));
+		else
+			throw new RuntimeException("Erreur: http code " + response.getStatus());
 	}
 
 	/**
@@ -78,35 +74,28 @@ public class ComputerCli {
 	 */
 	public void showComputersPage() {
 		String input;
-		Page page = new Page(-1);
+		PageDTO pageDTO = new PageDTO(-1);
 		do {
-			page.setIndex(page.getIndex() + 1);
-			
-			PageDTO pageDTO = computerTarget
-					.path("/dashboard")
-					.queryParam("index", page.getIndex())
-					.request(MediaType.APPLICATION_JSON)
-					.get(PageDTO.class);
-			
-			page = computerService.getByPage(pageMapperDTO.fromDto(pageDTO));
-			displayComputer(computerMapperDTO.listToDto(page.getComputerList()));
+			pageDTO.setIndex(pageDTO.getIndex() + 1);
 
-			System.out.println("\npage " + page.getIndex() + "/" + page.getNbTotalPage());
-			System.out.println("\n'enter' to search the next or 'exit' to return in the menu\n");
-			input = HelperCli.getStringInput();
-		} while (input == null && page.getComputerList().size() == Page.DEFAULT_NB_ENTITY_BY_PAGE);
+			// Consume the API
+			Response response = computerTarget.path("/dashboard").queryParam("index", pageDTO.getIndex())
+					.request(MediaType.APPLICATION_JSON).get();
+
+			if (response.getStatus() == HttpStatus.OK.value()) {
+				pageDTO = response.readEntity(PageDTO.class);
+				displayComputer(pageDTO.getComputerList());
+
+				System.out.println("\npage " + pageDTO.getIndex() + "/" + pageDTO.getNbTotalPage());
+				System.out.println("\n'enter' to search the next or 'exit' to return in the menu\n");
+				input = HelperCli.getStringInput();
+			} else {
+				throw new RuntimeException("Erreur: http code " + response.getStatus());
+			}
+
+		} while (input == null && pageDTO.getComputerList().size() == Page.DEFAULT_NB_ENTITY_BY_PAGE);
 	}
 
-	/**
-	 * 
-	 * Display a list of computer
-	 * 
-	 */
-	public void displayComputer(List<ComputerDTO> computerList) {
-		for (ComputerDTO computerDTO : computerList) {
-			System.out.println(computerDTO.toString());
-		}
-	}
 
 	/**
 	 * 
@@ -153,10 +142,14 @@ public class ComputerCli {
 			isCompanyIdError = true;
 		} while (company == null);
 
-		computerTarget
-				.path("computers")
-				.request(MediaType.APPLICATION_JSON)
-				.post(Entity.entity(computer,MediaType.APPLICATION_JSON));
+		// Consume the API
+		Response response = computerTarget.path("computers").request(MediaType.APPLICATION_JSON)
+				.post(Entity.entity(computer, MediaType.APPLICATION_JSON));
+
+		if (response.getStatus() == HttpStatus.NO_CONTENT.value())
+			System.out.println("Computer created");
+		else
+			throw new RuntimeException("Erreur: http code " + response.getStatus());
 	}
 
 	/**
@@ -169,7 +162,7 @@ public class ComputerCli {
 		System.out.println("\n***************** UPDATE A COMPUTER ***********************************\n");
 		showComputers();
 
-		Computer computer = null;
+		ComputerDTO computerDTO = null;
 		Boolean isComputerIdError = false;
 		Boolean isCompanyIdError = false;
 
@@ -179,26 +172,47 @@ public class ComputerCli {
 			else
 				System.out.println("\nERREUR: choose the computer to update (ID of the computer):");
 
-			computer = computerService.getByID(HelperCli.getIntInput(HelperCli.NO_MAX_VALUE));
-			isComputerIdError = true;
-		} while (computer == null);
+			// Consume the API
+			Response responseGet = computerTarget
+					.path("/" + HelperCli.getIntInput(HelperCli.NO_MAX_VALUE))
+					.request(MediaType.APPLICATION_JSON)
+					.get();
+			switch (HttpStatus.valueOf(responseGet.getStatus())) {
+			case OK:
+				computerDTO =  responseGet.readEntity(ComputerDTO.class);
+				break;
 
+			case BAD_REQUEST:
+				System.out.println("Invalid id");
+				break;
+
+			default:
+				throw new RuntimeException("Erreur: http code " + responseGet.getStatus());
+
+			}
+			
+			isComputerIdError = true;
+		} while (computerDTO == null);
+
+		Computer newComputer = new Computer();
+		newComputer.setId(computerDTO.getId());
+		
 		System.out.println("Choose a name or 'enter' to skip: ");
 		String name = HelperCli.getStringInput();
 		if (name != null)
-			computer.setName(name);
+			newComputer.setName(name);
 
 		System.out
 				.println("Choose a date of introduced (" + HelperCli.DATE_FORMAT + " or 'enter' to skip) :");
 		LocalDateTime introducedDate = HelperCli.getDateInput();
 		if (introducedDate != null)
-			computer.setIntroduced(introducedDate);
+			newComputer.setIntroduced(introducedDate);
 
 		System.out.println("Choose a date of discontinued (" + HelperCli.DATE_FORMAT
 				+ " or 'enter' to skip) :");
 		LocalDateTime discontinued = HelperCli.getDateInput();
 		if (introducedDate != null)
-			computer.setDiscontinued(discontinued);
+			newComputer.setDiscontinued(discontinued);
 
 		companyCli.showCompany();
 		Company company = null;
@@ -212,16 +226,20 @@ public class ComputerCli {
 			if (computerId != HelperCli.RESULT_SKIP) {
 				company = companyService.getByID(computerId);
 				if (company != null)
-					computer.setCompany(company);
+					newComputer.setCompany(company);
 			} else
 				break;
 			isCompanyIdError = true;
 		} while (company == null);
 
-		computerTarget
-			.path("/"+computer.getId())
-			.request(MediaType.APPLICATION_JSON)
-			.post(Entity.entity(computer,MediaType.APPLICATION_JSON));
+		// Consume the API
+		Response response = computerTarget.path("/" + newComputer.getId()).request(MediaType.APPLICATION_JSON)
+				.post(Entity.entity(newComputer, MediaType.APPLICATION_JSON));
+
+		if (response.getStatus() == HttpStatus.NO_CONTENT.value())
+			System.out.println("Computer saved");
+		else
+			throw new RuntimeException("Erreur: http code " + response.getStatus());
 	}
 
 	/**
@@ -241,11 +259,67 @@ public class ComputerCli {
 			System.out.println("\nERREUR: choose a computer to delete (ID of the computer):");
 		}
 
-		computerTarget
-			.path("/"+id)
-			.request(MediaType.APPLICATION_JSON)
-			.delete();
-		System.out.println("Computer deleted!\n");
+		// Consume the API
+		Response response = computerTarget.path("/" + id).request(MediaType.APPLICATION_JSON).delete();
+
+		switch (HttpStatus.valueOf(response.getStatus())) {
+			case NO_CONTENT:
+				System.out.println("Computer deleted!\n");
+				break;
+
+			case BAD_REQUEST:
+				System.out.println("Invalid id");
+				break;
+
+			default:
+				throw new RuntimeException("Erreur: http code " + response.getStatus());
+		}
+	}
+
+	/**
+	 * 
+	 * Get a computer using the cli interface
+	 * 
+	 */
+	public void getComputer() {
+
+		System.out.println("\n***************** GET A COMPUTER ***********************************\n");
+		showComputers();
+
+		System.out.println("\nchoose a computer to check (ID of the computer):");
+		int id = HelperCli.getIntInput(HelperCli.NO_MAX_VALUE);
+		while (id == HelperCli.RESULT_SKIP) {
+
+			System.out.println("\nERREUR: choose a computer to check (ID of the computer):");
+		}
+
+		// Consume the API
+		Response response = computerTarget.path("/" + id).request(MediaType.APPLICATION_JSON).get();
+
+		switch (HttpStatus.valueOf(response.getStatus())) {
+		case OK:
+			System.out.println(response.readEntity(ComputerDTO.class).toString());
+			break;
+
+		case BAD_REQUEST:
+			System.out.println("Invalid id");
+			break;
+
+		default:
+			throw new RuntimeException("Erreur: http code " + response.getStatus());
+
+		}
+	}
+	
+	/**
+	 * 
+	 * Display a list of computer
+	 * 
+	 */
+	public void displayComputer(List<ComputerDTO> computerList) {
+		for (ComputerDTO computerDTO : computerList) {
+			System.out.println(computerDTO.toString());
+		}
 	}
 
 }
