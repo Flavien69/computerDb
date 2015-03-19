@@ -103,7 +103,7 @@ public class ComputerCli {
 	 * 
 	 */
 	public void createComputer() {
-
+		Boolean isCompanyIdError = false;
 		Computer computer = new Computer.Builder().build();
 
 		System.out.println("\n***************** CREATE A COMPUTER ***********************************\n");
@@ -123,14 +123,12 @@ public class ComputerCli {
 		computer.setDiscontinued(HelperCli.getDateInput());
 
 		companyCli.showCompany();
-
-		Boolean isCompanyIdError = false;
 		Company company = null;
 		do {
 			if (!isCompanyIdError)
-				System.out.println("\nchoose the company (ID of the company or 'enter' to skip):");
+				System.out.println("\nchoose your company (ID of the company or 'enter' to skip):");
 			else
-				System.out.println("\nERREUR: choose the company (ID of the company or 'enter' to skip):");
+				System.out.println("\nERREUR: choose your company (ID of the company or 'enter' to skip):");
 
 			int computerId = HelperCli.getIntInput(HelperCli.NO_MAX_VALUE);
 			if (computerId != HelperCli.RESULT_SKIP) {
@@ -143,13 +141,16 @@ public class ComputerCli {
 		} while (company == null);
 
 		// Consume the API
-		Response response = computerTarget.path("computers").request(MediaType.APPLICATION_JSON)
+		Response response = computerTarget.request(MediaType.APPLICATION_JSON)
 				.post(Entity.entity(computer, MediaType.APPLICATION_JSON));
 
 		if (response.getStatus() == HttpStatus.NO_CONTENT.value())
-			System.out.println("Computer created");
+			System.out.println("Computer saved");
 		else
 			throw new RuntimeException("Erreur: http code " + response.getStatus());
+		
+		
+		
 	}
 
 	/**

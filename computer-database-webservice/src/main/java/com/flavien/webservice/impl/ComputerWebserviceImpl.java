@@ -112,11 +112,7 @@ public class ComputerWebserviceImpl implements ComputerWebservice {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addComputer(Computer computer) {
-		try {
-			computerService.add(computer);
-		} catch (PersistenceException e) {
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		}
+		computerService.add(computer);
 		return Response.noContent().build();
 	}
 

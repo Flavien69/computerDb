@@ -43,11 +43,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 */
 	@Override
 	public void add(Computer computer) {
-		try {
-			computerRepository.save(computer);
-		} catch (EmptyResultDataAccessException e) {
-			throw new PersistenceException(e);
-		}
+		computerRepository.save(computer);
 	}
 
 	/*
