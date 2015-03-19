@@ -28,27 +28,25 @@ public class ComputerMapperDTO {
 	public ComputerDTO toDto(Computer computer) {
 		DateTimeFormatter localeFormatter = DateTimeFormatter.ofPattern(getDatePattern());
 
-		if (computer == null)
+		if (computer == null){
 			return null;
+		}
 		
 		return new ComputerDTO.Builder()
 				.id(computer.getId())
 				.name(computer.getName())
 				.company(computer.getCompany())
-				.introduced(
-						computer.getIntroduced() == null ? null : computer.getIntroduced().format(
-								localeFormatter))
-				.discontinued(
-						computer.getDiscontinued() == null ? null : computer.getDiscontinued().format(
-								localeFormatter)).build();
+				.introduced(computer.getIntroduced() == null ? null : computer.getIntroduced().format(localeFormatter))
+				.discontinued(computer.getDiscontinued() == null ? null : computer.getDiscontinued().format(localeFormatter)).build();
 
 	}
 
 	public Computer fromDto(ComputerDTO computerDTO) {
 		
-		if (computerDTO == null)
+		if (computerDTO == null){
 			return null;
-		
+		}
+			
 		return new Computer.Builder()
 			.id(computerDTO.getId())
 			.name(computerDTO.getName())

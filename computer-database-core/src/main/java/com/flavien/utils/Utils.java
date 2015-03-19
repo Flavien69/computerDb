@@ -17,8 +17,6 @@ import org.slf4j.LoggerFactory;
 public class Utils {
 	private final static Logger logger = LoggerFactory.getLogger(Utils.class);
 	public static final String INT_REGEX = "^[0-9]*$";
-	//public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
-	//public static final String DATE_REGEX = "^(19|20)\\d\\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])[\\s||T][0-9][0-9]:[0-9][0-9]$";
 	public static final int ERROR = 0;
 
 	/**

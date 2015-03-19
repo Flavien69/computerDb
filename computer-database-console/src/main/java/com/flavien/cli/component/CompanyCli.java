@@ -49,8 +49,7 @@ public class CompanyCli {
 		Response response = companyTarget.request(MediaType.APPLICATION_JSON).get();
 
 		if (response.getStatus() == HttpStatus.OK.value()) {
-			List<Company> companyList = response.readEntity(new GenericType<List<Company>>() {
-			});
+			List<Company> companyList = response.readEntity(new GenericType<List<Company>>() {});
 			for (Company company : companyList) {
 				System.out.println(company.toString());
 			}

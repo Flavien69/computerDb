@@ -19,7 +19,6 @@ public class Page {
 	private SortOrder sortOrder = SortOrder.ASC;
 	private String search = "";
 	private SortCriteria sortCriteria = SortCriteria.ID;
-	@SuppressWarnings("unused")
 	private int[] range;
 	private int nbEntityByPage = DEFAULT_NB_ENTITY_BY_PAGE;
 

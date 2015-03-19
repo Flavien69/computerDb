@@ -18,32 +18,32 @@ import org.hibernate.annotations.Type;
  * 
  */
 @Entity
-@Table(name="computer")
-public class Computer implements Serializable{
+@Table(name = "computer")
+public class Computer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	private String name;
-	
-	@Column(name="introduced")
-	@Type(type="com.flavien.dao.mapper.LocalDateTimeUserType")
+
+	@Column(name = "introduced")
+	@Type(type = "com.flavien.dao.mapper.LocalDateTimeUserType")
 	private LocalDateTime introduced;
-	
-	@Column(name="discontinued")
-	@Type(type="com.flavien.dao.mapper.LocalDateTimeUserType")
+
+	@Column(name = "discontinued")
+	@Type(type = "com.flavien.dao.mapper.LocalDateTimeUserType")
 	private LocalDateTime discontinued;
-	
+
 	@OneToOne
 	private Company company;
 
-	public Computer() {}
+	public Computer() {
+	}
 
-	
 	public int getId() {
 		return id;
 	}
@@ -156,7 +156,8 @@ public class Computer implements Serializable{
 		}
 
 		/**
-		 * Set the id attribute 
+		 * Set the id attribute
+		 * 
 		 * @param id
 		 * @return Builder A reference to the current instance of Builder
 		 */
@@ -167,6 +168,7 @@ public class Computer implements Serializable{
 
 		/**
 		 * Set the name attribute
+		 * 
 		 * @param name
 		 * @return Builder A reference to the current instance of Builder
 		 */
@@ -176,7 +178,7 @@ public class Computer implements Serializable{
 		}
 
 		/**
-		 * Sets the introduced attribute 
+		 * Sets the introduced attribute
 		 *
 		 * @param introduced
 		 * @return Builder A reference to the current instance of Builder
@@ -187,9 +189,9 @@ public class Computer implements Serializable{
 		}
 
 		/**
-		 * Sets the discontinued attribute 
+		 * Sets the discontinued attribute
 		 *
-		 * @param discontinued        
+		 * @param discontinued
 		 * @return Builder A reference to the current instance of Builder
 		 */
 		public Builder discontinued(LocalDateTime discontinued) {
@@ -200,7 +202,7 @@ public class Computer implements Serializable{
 		/**
 		 * Sets the company attribute
 		 *
-		 * @param company           
+		 * @param company
 		 * @return Builder A reference to the current instance of <i>Builder</i>
 		 */
 		public Builder company(Company company) {

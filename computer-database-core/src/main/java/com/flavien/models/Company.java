@@ -7,25 +7,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 /**
  * 
  * Object model that represent a Company.
  * 
  */
 @Entity
-@Table(name="company")
-public class Company implements Serializable{
+@Table(name = "company")
+public class Company implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
 
-	@Column(name="name")
+	@Column(name = "name")
 	private String name;
 
-	public Company() {}
+	public Company() {
+	}
 
 	public String getName() {
 		return name;
@@ -34,7 +36,7 @@ public class Company implements Serializable{
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -47,7 +49,7 @@ public class Company implements Serializable{
 	public String toString() {
 		return "Company [id=" + id + ", name=" + name + "]";
 	}
-	
+
 	/**
 	 * Builder class for a Company object
 	 *
@@ -60,7 +62,8 @@ public class Company implements Serializable{
 		}
 
 		/**
-		 * Set the id attribute 
+		 * Set the id attribute
+		 * 
 		 * @param id
 		 * @return Builder A reference to the current instance of Builder
 		 */
@@ -71,6 +74,7 @@ public class Company implements Serializable{
 
 		/**
 		 * Set the name attribute
+		 * 
 		 * @param name
 		 * @return Builder A reference to the current instance of Builder
 		 */
@@ -78,7 +82,7 @@ public class Company implements Serializable{
 			company.setName(name);
 			return this;
 		}
-		
+
 		/**
 		 * Creates an instance of Company
 		 *

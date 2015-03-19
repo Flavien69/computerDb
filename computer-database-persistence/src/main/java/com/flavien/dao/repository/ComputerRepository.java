@@ -18,7 +18,7 @@ public interface ComputerRepository extends PagingAndSortingRepository<Computer,
 	 * 
 	 * @return List<Computer>
 	 */	
-	@Transactional
+	@Transactional()
 	public List<Computer> findAll();
 	
 	/**

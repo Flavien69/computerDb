@@ -130,7 +130,10 @@ public class ComputerWebserviceImpl implements ComputerWebservice {
 	@POST
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response saveComputer(Computer computer) {
+	public Response saveComputer(Computer computer, @PathParam("id") int id) {
+		if (computer.getId() != id){
+			return Response.status(Response.Status.BAD_REQUEST).build(); 
+		}
 		try {
 			computerService.add(computer);
 		} catch (PersistenceException e) {
